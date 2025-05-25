@@ -15,21 +15,11 @@ public static class CryptoUtils
     }
 
     public static int GenerateSecureInt(int maxExclusive)
-    {        
-        if (maxExclusive <= 0) throw new ArgumentException("maxExclusive must be > 0");
+    {
+        if (maxExclusive <= 0)
+            throw new ArgumentException("maxExclusive must be > 0");
 
-        using var rng = RandomNumberGenerator.Create();
-        var bytes = new byte[4];
-        int result;
-
-        do
-        {
-            rng.GetBytes(bytes);
-            result = BitConverter.ToInt32(bytes, 0) & int.MaxValue; 
-        }
-        while (result >= maxExclusive * (int.MaxValue / maxExclusive));
-
-        return result % maxExclusive;
+        return RandomNumberGenerator.GetInt32(maxExclusive);
     }
 
     public static string ComputeHMAC_SHA3(byte[] key, int number)
